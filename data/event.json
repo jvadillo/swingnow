@@ -1,0 +1,26 @@
+{
+  "title": "F. Fiesta Fin de Trimestre y Despedida de Profes",
+  "lat": " 42.85917",
+  "lon": "-2.68179",
+  "begin-date": "24/06/2015",
+  "end-date": "",
+  "begin-hour": "10:00",
+  "end-hour": "11:00",
+  "allday" : true,
+  "recurring" : [1,2,3,4,5,6,7],
+  "country": "Portugal",
+  "country-code": "PT",
+  "city": "Lisboa",
+  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
+  "organizer": "Swing Up",
+  "email": "info@savoyswingup.com",
+  "web": "http://www.savoyswingup.com",
+  "phone": "656123456",
+  "event_type": "festival",
+  "styles": [
+    "lindy hop",
+    "balboa",
+    "blues"
+  ],
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
+}

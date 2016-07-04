@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>lindyhopmap.org Materialize version v0.3</title>
+
+
+
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css'>
+  <link rel='stylesheet prefetch' href='https://cdn.leafletjs.com/leaflet-0.7/leaflet.css'>
+  <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.5.0/MarkerCluster.css" />
+  <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.5.0/MarkerCluster.Default.css" />
+
+  
+
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+  <link rel='stylesheet prefetch' href='https://cdn.rawgit.com/chingyawhao/materialize-clockpicker/master/dist/css/materialize.clockpicker.css'>
+  <link rel='stylesheet prefetch' href='https://maps.google.com/maps/api/js?sensor=false&libraries=places'>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.css" />
+
+
+
+
+</head>
+
+<body>
+  
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '243757625994775',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/eu_ES/sdk.js#xfbml=1&version=v2.6&appId=243757625994775";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+  
+  
+  
+  
+  
+  
+
+  <!-- LANDING -->
+  <div class="landing-background">
+    <div class="container landing-content center" id="error">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="main-icon text-success"><span class="uxicon uxicon-clock-refresh"></span></div>
+          <h1>Swing everywhere. <span class="landing-logo">Swing now!</span></h1>
+          <h5><strong>Find</strong> opportunities to dance <strong>wherever</strong> you are.</h5>
+          <h5><strong>Publish</strong> your event and <strong>everybody</strong> will see it.</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="center-align">
+            <a href="#" id="find-events-btn" class="btn btn-large create-list-link hero-btn landing-btn">Find events<svg style="width:24px;height:24px;top: 6px; position: relative; right: 2px;" viewBox="0 0 24 24">
+<path fill="#ffffff" d="M5.59,7.41L7,6L13,12L7,18L5.59,16.59L10.17,12L5.59,7.41M11.59,7.41L13,6L19,12L13,18L11.59,16.59L16.17,12L11.59,7.41Z"></path>
+</svg>
+</a>
+            <a id="publish-event-btn" href="#" class="btn btn-large white grey-text hero-btn landing-btn">Publish event</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- end LANDING -->
+
+  <!-- NAVBARS -->
+  <div class="navbars hide">
+    <!-- MAIN NAVBAR -->
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <a class="brand-logo" href="#"><i class="material-icons left">&nbsp;language</i> &nbsp;Swing Now!</a>
+          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <a href="#" id="filters-mobile-btn" data-activates="mobile-filters-subnavbar" class="button-collapse right"><i class="material-icons left">settings</i>Filters</span></a>
+          <ul class="side-nav" id="mobile-demo">
+            <li><a href="sass.html"><i class="material-icons left">map</i>Map</a></li>
+            <li><a href="badges.html"><i class="material-icons left">event</i>Calendar</a></li>
+            <li><a href="#submit-event-modal" class="modal-trigger" data-target="submit-event-modal"><i class="material-icons left">create</i>Submit event</a></li>
+            <li><a href="#"><i class="material-icons left">group_add</i>Join us!</a></li>
+            <li><a href="#contact-modal" id="contact-modal-link" class="modal-trigger" data-target="contact-modal"><i class="material-icons left">mail_outline</i>Contact us</a></li>
+          </ul>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="sass.html"><i class="material-icons left">map</i>Map</a></li>
+            <li><a href="badges.html"><i class="material-icons left">event</i>Calendar</a></li>
+            <li><a href="#submit-event-modal" class="modal-trigger" data-target="submit-event-modal"><i class="material-icons left">create</i>Submit event</a></li>
+            <li><a href="#"><i class="material-icons left">group_add</i>Join us!</a></li>
+            <li><a href="#contact-modal" id="contact-modal-link" class="modal-trigger" data-target="contact-modal"><i class="material-icons left">mail_outline</i>Contact us</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <!-- end MAIN NAVBAR -->
+
+    <!-- MOBILE FILTERS NAVBAR -->
+    <div id="mobile-filters-subnavbar" class="navbar-fixed subnavbar-fixed">
+      <div class="nav-wrapper row subnav-filters">
+        <form class="col s12">
+          <div class="row no-margin-bottom ">
+            <div class="input-field col s12 m3">
+              <select>
+                <option value="0" selected>Whenever</option>
+                <option value="1">Today</option>
+                <option value="2">This week</option>
+                <option value="3">This month</option>
+                <option value="3">This year</option>
+              </select>
+              <label>Date range</label>
+            </div>
+            <div class="input-field col s12 m4">
+              <select multiple>
+                <option value="1" selected>Lindy Hop</option>
+                <option value="2" selected>Blues</option>
+                <option value="3" selected>Balboa</option>
+                <option value="3" selected>Jazz</option>
+                <option value="3" selected>Shag</option>
+                <option value="3" selected>Charleston</option>
+                <option value="3" selected>Other</option>
+              </select>
+              <label>Styles</label>
+            </div>
+            <div class="input-field col s12 m3">
+              <select multiple>
+                <option value="1" selected>Classes</option>
+                <option value="2" selected>Socials</option>
+                <option value="3" selected>Festivals</option>
+              </select>
+              <label>Styles</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- end MOBILE FILTERS NAVBAR -->
+    
+    <!-- FILTERS NAVBAR DESKTOP VERSION -->
+    <div id="filters-subnavbar" class="navbar-fixed subnavbar-fixed right hide-on-med-and-down">
+      <div class="nav-wrapper row subnav-filters">
+        <form class="col s12">
+          <div class="row no-margin-bottom">
+            <div class="input-field col s12 m2 filters-span-col">
+              <span id="filters-span"><i class="material-icons left">settings</i>Filters</span>
+            </div>
+            <div class="input-field col s12 m3">
+              <select>
+                <option value="0" selected>Whenever</option>
+                <option value="1">Today</option>
+                <option value="2">This week</option>
+                <option value="3">This month</option>
+                <option value="3">This year</option>
+              </select>
+              <label>Date range</label>
+            </div>
+            <div class="input-field col s12 m4">
+              <select multiple>
+                <option value="1" selected>Lindy Hop</option>
+                <option value="2" selected>Blues</option>
+                <option value="3" selected>Balboa</option>
+                <option value="3" selected>Jazz</option>
+                <option value="3" selected>Shag</option>
+                <option value="3" selected>Charleston</option>
+                <option value="3" selected>Other</option>
+              </select>
+              <label>Styles</label>
+            </div>
+            <div class="input-field col s12 m3">
+              <select multiple>
+                <option value="1" selected>Classes</option>
+                <option value="2" selected>Socials</option>
+                <option value="3" selected>Festivals</option>
+              </select>
+              <label>Styles</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- end FILTERS NAVBAR -->
+  </div>
+  <!-- end NAVBARS -->
+
+  <!-- CONTAINER -->
+  <div id="container">
+     <!-- RIGHT PANEL -->
+    <div id="rightPanel" class="card-container hide">
+    <span id="closeRightPanel" class="card-container-top-action"><i class="small material-icons right">close</i>CLOSE</span>
+    <h5>Events in <span id="placeNameHolder"></span></h5>
+      
+      <div id="rightPanelContent"></div>
+      <!--
+      <div class="card card-event-detail">
+        
+        <div class="card-content white-text">
+          <div class="card__meta">
+            <a href="#"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</a>
+            
+          </div>
+          <span class="card-event-title">Savoy swing up</span>
+    
+          <p class="card-subtitle card-event-detail-text grey-text text-darken-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...lacus eleifend lacinia... go!</p>
+          <div class="row card-row">
+            <div class="col s12">
+              <span class="card-info card-event-detail-info"><i class="small material-icons">place</i>Avenida Gasteiz 53, 2º C, 01012, Vitoria-Gasteiz</span>
+            </div>
+          </div>
+          <div class="row card-row">
+            <div class="col s12 m6">
+              <span class="card-info card-event-detail-info"><i class="small material-icons">event</i>&nbsp;05/06/2016 - 08/06/2016</span>
+            </div>
+            <div class="col s12 m6">
+              <span class="card-info card-event-detail-info"><i class="small material-icons">schedule</i>&nbsp;08:00 - 12:00</span>
+            </div>
+          </div>
+          
+          <div class="row card-row">
+            <div class="col s12 m6">
+              <span class="card-info card-event-detail-info"><i class="small material-icons">local_activity</i>&nbsp;Festival</span>
+            </div>
+            <div class="col s12 m6">
+              <span class="card-info card-event-detail-info"><i class="small material-icons">credit_card</i>&nbsp;12.00 €</span>
+            </div>
+          </div>
+    
+          <div class="row card-row">
+            <div class="col s12">
+              <span class="card-info card-event-detail-info"><i class="small material-icons">public</i>&nbsp;wwww.savoyswingup.com</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-action">
+          <a href="#"><i class="material-icons">&nbsp;language</i>VISIT WEB</a>
+          <a href="#" class="card-action-right right"><i class="material-icons">&nbsp;share</i>SHARE</a>
+        </div>
+      </div>
+      -->
+      <!--
+      <div id="eventCardsContainer"></div>
+      
+      <div class="card">
+        <div class="card-content white-text">
+          <div class="card__meta">
+            <a href="#"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</a>
+  
+          </div>
+          <span class="card-title grey-text text-darken-4">Savoy swing up</span>
+  
+          <p class="card-subtitle grey-text text-darken-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...lacus eleifend lacinia... go!</p>
+          <div class="row card-row">
+            <span class="text-darken-2 card-info"><i class="small material-icons">event</i>&nbsp;lindy hop, balboa, charleston</span>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="#" class="card-action-right"><i class="material-icons">&nbsp;share</i>SHARE</a>
+          <a href="#" class="right"><i class="material-icons right">&nbsp;navigate_next</i>MORE INFO</a>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-content white-text">
+          <div class="card__meta">
+            <a href="#"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</a>
+  
+          </div>
+          <span class="card-title grey-text text-darken-4">Savoy swing up</span>
+  
+          <p class="card-subtitle grey-text text-darken-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...lacus eleifend lacinia... go!</p>
+          <div class="row card-row">
+            <span class="text-darken-2 card-info"><i class="small material-icons">event</i>&nbsp;lindy hop, balboa, charleston</span>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="#" class="card-action-right"><i class="material-icons">&nbsp;share</i>SHARE</a>
+          <a href="#" class="right"><i class="material-icons right">&nbsp;navigate_next</i>MORE INFO</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content white-text">
+          <div class="card__meta">
+            <a href="#"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</a>
+  
+          </div>
+          <span class="card-title grey-text text-darken-4">Savoy swing up</span>
+  
+          <p class="card-subtitle grey-text text-darken-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...lacus eleifend lacinia... go!</p>
+          <div class="row card-row">
+            <span class="text-darken-2 card-info"><i class="small material-icons">event</i>&nbsp;lindy hop, balboa, charleston</span>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="#" class="card-action-right"><i class="material-icons">&nbsp;share</i>SHARE</a>
+          <a href="#" class="right"><i class="material-icons right">&nbsp;navigate_next</i>MORE INFO</a>
+        </div>
+      </div>
+      -->
+      </div>
+  
+  <!-- end RIGHT PANEL -->
+    <div id="map"></div>
+  </div>
+  <!-- end CONTAINER -->
+
+ 
+
+
+
+
+  <!-- PUBLISH EVENT MODAL -->
+  <div id="submit-event-modal" class="modal submit-event-modal">
+
+    <!-- Create event first screen -->
+    <div id="new-event-screen" class="modal-content">
+      <div class="row">
+        <div class="col s12">
+          <h3 class="center">Create an event and ...</h1>
+          <h3 class="center"><span class="landing-logo">... everybody will see it!</span></h1>
+          <h6 class="center">If the event exists in <strong>Facebook</strong>, we cat fill all the information <strong>automatically</strong> for you!</h6>
+          <div class="row  valign-wrapper">
+            <!-- Load evento from FB -->
+            <div class="col s12 m6" style="
+  border-right: 1px solid #e0e0e0;">
+              <div class="row">
+                <div class="col s12 center">
+                  <h5>The event exist en <strong>Facebook</strong></h5>
+                  <input placeholder="Facebook event name" id="fbEventName" type="text">
+                  <a id="load-event-btn" href="#" class="btn btn-largelanding-btn">Load event</a>
+                </div>
+              </div>
+            </div>
+            <!-- Create event from zero. -->
+            <div class="col s12 m6">
+              <div class="row">
+                <div class="col s12 center">
+                  <h5>Create a new event from zero.</h5>
+                  <a id="new-event-btn" href="#" class="btn btn-largelanding-btn">Create event</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end: Create event first screen -->
+
+    <!-- Event published screen -->
+    <div id="event-published-screen" class="modal-content hide">
+      <div id="step4">
+        <div class="row">
+          <div class="col-md-12">
+            <h1><i class="material-icons">done_all</i>Event created. <span class="landing-logo color-white">Thank you!</span></h1>
+            <h5>The event will be now <strong>visible</strong> for <strong>everybody</strong></h5>
+            <h5><strong>Thank you</strong> for being part of our <strong>worldwide Swing community.</strong></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <div class="center-align">
+              <a href="#" id="publish-modal-find-events-btn" class="btn btn-large create-list-link hero-btn landing-btn">Find events<svg style="width:24px;height:24px;top: 6px; position: relative; right: 2px;" viewBox="0 0 24 24">
+  <path fill="#ffffff" d="M5.59,7.41L7,6L13,12L7,18L5.59,16.59L10.17,12L5.59,7.41M11.59,7.41L13,6L19,12L13,18L11.59,16.59L16.17,12L11.59,7.41Z"></path>
+  </svg>
+  </a>
+              <a id="publish-modal-publish-event-btn" href="#" class="btn btn-large white grey-text hero-btn landing-btn">Publish event</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Event published screen -->
+    <div id="steps" class="modal-content hide">
+      <!-- HORIZONTAL STEPPER -->
+      <div id="submit-horizontal-stepper" class="mdl-card mdl-shadow--2dp">
+        <h4><strong>Publish</strong> your event in <strong>3 easy steps.</strong></h4>
+        <div class="mdl-card__supporting-text">
+          <div class="mdl-stepper-horizontal-alternative">
+            <div id="stepper1" class="mdl-stepper-step active-step editable-step">
+              <div class="mdl-stepper-circle"><span>1</span></div>
+              <div class="mdl-stepper-title">Place</div>
+              <div class="mdl-stepper-optional">Where it is?</div>
+              <div class="mdl-stepper-bar-left"></div>
+              <div class="mdl-stepper-bar-right"></div>
+            </div>
+            <div id="stepper2" class="mdl-stepper-step">
+              <div class="mdl-stepper-circle"><span>2</span></div>
+              <div class="mdl-stepper-title">Organizer</div>
+              <div class="mdl-stepper-optional">Who is organizing?</div>
+              <div class="mdl-stepper-bar-left"></div>
+              <div class="mdl-stepper-bar-right"></div>
+            </div>
+            <div id="stepper3" class="mdl-stepper-step">
+              <div class="mdl-stepper-circle"><span>3</span></div>
+              <div class="mdl-stepper-title">Event info</div>
+              <div class="mdl-stepper-optional">Event details</div>
+              <div class="mdl-stepper-bar-left"></div>
+              <div class="mdl-stepper-bar-right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end HORIZONTAL STEPPER -->
+      <!-- STEPS -->
+      <div class="stepper">
+        <form id="new-event">
+          <div id="step1" class="step">
+  
+            <div class="row submit-event-row">
+              <div class="input-field col s12 m6">
+                <div class="row submit-event-row">
+                  <div class="input-field col s12">
+                    <input placeholder="Where is the event?" id="placeName" name="placeName" type="text" class="validate typeahead" required>
+                    <label for="placeName" class="active">Place name</label>
+                  </div>
+                </div>
+                <div class="row submit-event-row">
+                  <div class="input-field col s12">
+                    <input placeholder="Type the address of the place" id="eventAddress" name="address" type="text" class="validate" required>
+                    <label for="address">Address</label>
+                    <!-- Hidden lat/lon inputs automagically filled -->
+                    <input class="hide" type="text" id="eventLat" name="lat" />
+                    <input class="hide" type="text" id="eventLon" name="lon" />
+                  </div>
+                </div>
+                <div class="row submit-event-row">
+                  <div class="input-field col s12">
+                    <input placeholder="Madrid, Lisboa, Paris, Singapur, New York, ..." id="city" type="text" name="city" class="validate">
+                    <label for="city">City/Town</label>
+                  </div>
+                  <div class="input-field col s12 hide">
+                    <input placeholder="England, Japan, Mexico, ..." id="countryCode" name="countryCode" type="text" class="validate">
+                    <label for="countryCode">Country</label>
+                  </div>
+                </div>
+  
+              </div>
+              <!-- end of left col. -->
+              <div class="input-field col s12 m6">
+                <div id="location-picker-map" style="width: 100%; height: 240px; margin-top: 10px;"></div>
+              </div>
+            </div>
+            <div class="row submit-event-row right submit-actions-row">
+              <a id="next1" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
+            </div>
+          </div>
+  
+          <!-- Step 2 -->
+          <div id="step2" class="step hide">
+  
+            <div class="row submit-event-row">
+              <div class="input-field col s12">
+                <input placeholder="Who is organizing the event?" id="organizer" name="organizer" type="text" class="validate">
+                <label for="organizer">Organizer</label>
+              </div>
+            </div>
+            <div class="row submit-event-row">
+              <div class="input-field col s12 m6">
+                <input placeholder="http://www.myswingwebsite.com" id="organizerWebsite" type="text" name="organizerWebsite" class="validate">
+                <label for="organizerWebsite">Organizer website (optional)</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <input placeholder="http://www.facebook.com/SWING" id="organizerFb" name="organizerFb" type="text" class="validate">
+                <label for="organizerFb">Organizer Facebook page (optional)</label>
+              </div>
+            </div>
+            <div class="row submit-event-row">
+              <div class="input-field col s12 m6">
+                <input placeholder="info@mail.com" id="organizerEmail" type="text" name="organizerEmail" class="validate">
+                <label for="organizerEmail">Organizer Email</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <input placeholder="+34 655 55 44 33" id="organizerPhone" name="organizerPhone" type="text" class="validate">
+                <label for="organizerPhone">Organizer contact phone</label>
+              </div>
+            </div>
+  
+            <div class="row submit-event-row right submit-actions-row">
+              <a id="previous2" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
+              <a id="next2" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
+            </div>
+          </div>
+  
+          <!-- Step 3 -->
+          <div id="step3" class="step hide">
+  
+            <div class="row submit-event-row">
+              <div class="input-field col s12">
+                <input placeholder="Event title!" id="title" name="title" type="text" class="validate" required>
+                <label for="title">Event title</label>
+              </div>
+            </div>
+            <div class="row submit-event-row">
+              <div id="eventTypeInputField" class="input-field col s12 m6">
+                <select id="eventType" name="eventType" class="validate" aria-required="true" required>
+                  <option value="" disabled selected>Choose event type</option>
+                  <option value="social">Social</option>
+                  <option value="class">Class</option>
+                  <option value="festival">Festival / Event</option>
+                  <option value="other">Other</option>
+                </select>
+                <label for="eventType">Event type</label>
+              </div>
+              <div id="eventStylesInputField" class="input-field col s12 m6">
+                <select id="eventStyle" name="eventStyle" multiple class="validate" required>
+                  <option value="" disabled selected>Choose style(s)</option>
+                  <option value="lindy hop">Lindy Hop</option>
+                  <option value="blues">Blues</option>
+                  <option value="balboa">Balboa</option>
+                  <option value="jazz">Jazz</option>
+                  <option value="shag">Shag</option>
+                  <option value="charleston">Charleston</option>
+                  <option value="other">Other</option>
+                </select>
+                <label for="eventStyle">Styles</label>
+              </div>
+            </div>
+  
+            <div class="row submit-event-row">
+              <div class="input-field col s12 m4">
+                <label>Begin date</label>
+                <input id="beginDate" name="beginDate" type="date" class="datepicker validate" required>
+              </div>
+              <div class="input-field col s12 m2">
+                <label for="beginHour">Begin hour</label>
+                <input id="beginHour" name="beginHour" class="timepicker" type="time" >
+              </div>
+              <div class="input-field col s12 m4">
+                <label>End date</label>
+                <input id="endDate" name="endDate" type="date" class="datepicker validate" required>
+              </div>
+              <div class="input-field col s12 m2">
+                <label for="endHour">End hour</label>
+                <input id="endHour" name="endHour" class="timepicker" type="time">
+              </div>
+            </div>
+  
+            <div class="row submit-event-row">
+              <div class="input-field col s3 checkbox-margin-fix">
+                <input type="checkbox" name="wholeDay" class="filled-in" id="whole-day-box" />
+                <label for="whole-day-box">Whole day</label>
+              </div>
+              <div class="input-field col s9 checkbox-margin-fix">
+                <input type="checkbox" class="filled-in" id="repeat-box" />
+                <label class="event-day-checkbox" for="repeat-box">Repeat...</label>
+                <div id="event-day-checkboxes" class="hide">
+                  <input type="checkbox" class="filled-in" id="repeat-1" name="repeat" value="1" />
+                  <label class="event-day-checkbox" for="repeat-1">L</label>
+                  <input type="checkbox" class="filled-in" id="repeat-2" name="repeat" value="2" />
+                  <label class="event-day-checkbox" for="repeat-2">M</label>
+                  <input type="checkbox" class="filled-in" id="repeat-3" name="repeat" value="3" />
+                  <label class="event-day-checkbox" for="repeat-3">X</label>
+                  <input type="checkbox" class="filled-in" id="repeat-4" name="repeat" value="4" />
+                  <label class="event-day-checkbox" for="repeat-4">J</label>
+                  <input type="checkbox" class="filled-in" id="repeat-5" name="repeat" value="5" />
+                  <label class="event-day-checkbox" for="repeat-5">V</label>
+                  <input type="checkbox" class="filled-in" id="repeat-6" name="repeat" value="6" />
+                  <label class="event-day-checkbox" for="repeat-6">S</label>
+                  <input type="checkbox" class="filled-in" id="repeat-7" name="repeat" value="7" />
+                  <label class="event-day-checkbox" for="repeat-7">D</label>
+                </div>
+              </div>
+            </div>
+  
+            <div class="row submit-event-row">
+              <div class="input-field col s12 m6">
+                <input placeholder="http://www.myeventwebsite.com" id="website" type="text" name="web" class="validate">
+                <label for="website">Event website (optional)</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <input placeholder="http://www.mywebsite.com" id="fb" name="fb" type="text" class="validate">
+                <label for="fb">Event Facebook page (optional)</label>
+              </div>
+            </div>
+            <div class="row submit-event-row">
+              <div class="input-field col s12">
+                <textarea id="description" name="description" class="materialize-textarea" length="1500" required></textarea>
+                <label for="description">Describe the event in a tweet!</label>
+              </div>
+            </div>
+            <div class="row submit-event-row right submit-actions-row">
+              <a id="previous3" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
+              <a id="finish-btn" class="waves-effect waves-light btn"><i class="material-icons right">done_all</i>FINISH</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- end STEPS -->
+    </div>
+    <!-- modal content end. -->
+  </div>
+  <!-- end PUBLISH EVENT MODAL -->
+
+  <!-- CONTACT EVENT MODAL -->
+  <div id="contact-modal" class="modal contact-modal">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col s12">
+          <h2 class="center-align">Drop us a line</h2>
+          <p>Thank you for visiting us. What can we do for you? would you like to join our team or share your experience at Swing Now? Just drop us a line.</p>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="name" type="text">
+                  <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                  <input id="email" type="email" class="form-input">
+                  <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12">
+                  <textarea id="message" class="materialize-textarea"></textarea>
+                  <label for="message">Message</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col m12">
+                  <p class="right-align">
+                    <button class="btn btn-large waves-effect waves-light" type="button" name="action">Send Message</button>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end CONTACT EVENT MODAL -->
+
+
+
+  <!-- JAVASCRIPT LIBRARIES -->
+  
+  <!-- jQuery 
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>-->
+  <script src='js/lib/jquery-2.2.4.min.js'></script>
+  <!-- Google Maps -->
+  <script src='https://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+  <!-- Materialize CSS framework: www.materializecss.com 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js'></script>-->
+  <script src='js/lib/materialize.min.js'></script>
+  
+  <!-- Leaflet library for maps
+  <script src='https://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script> -->
+  <script src='js/lib/leaflet.js'></script>
+  <!-- Marker cluster plugin for leaflet
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.5.0/leaflet.markercluster.js'></script> -->
+  <script src='js/lib/leaflet.markercluster.js'></script>
+  <!-- Mapzen geocoder plugin for leaflet 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.5.2/leaflet-geocoder-mapzen.js'></script> -->
+  <script src='js/lib/leaflet-geocoder-mapzen.js'></script>
+  <!-- Leaflet plugin for using Google Maps tilelayer in Leaflet
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-plugins/1.6.1/layer/tile/Google.min.js'></script>  -->
+  <script src='js/lib/Google.min.js'></script>
+  <!-- Time picker for MaterializeCSS framework
+  <script src='https://cdn.rawgit.com/chingyawhao/materialize-clockpicker/master/dist/js/materialize.clockpicker.js'></script> -->
+  <script src='js/lib/materialize.clockpicker.js'></script>
+  <!-- Location picker integrated with google maps 
+  <script src='https://cdn.rawgit.com/Logicify/jquery-locationpicker-plugin/master/dist/locationpicker.jquery.min.js'></script> -->
+  <script src='js/lib/locationpicker.jquery.min.js'></script>
+  <!-- Twitter's typeahead autocomplete library and Bloodhound engine 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/bloodhound.min.js'></script>-->
+  <script src='js/lib/typeahead.jquery.min.js'></script>
+  <script src='js/lib/bloodhound.min.js'></script>
+  <!-- jQuery validation plugin 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js'></script>-->
+  <script src='js/lib/jquery.validate.min.js'></script>
+  
+
+  <script src="js/index.js"></script>
+
+  <div id="fb-root"></div>
+  
+  
+  <!--
+
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/eu_ES/sdk.js#xfbml=1&version=v2.6&appId=243757625994775";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+-->
+</body>
+
+</html>
