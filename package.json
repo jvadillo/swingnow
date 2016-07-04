@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "A complete swing events map & calendar.",
   "main": "server.js",
-  "repository": "",
-  "author": "Mostafa Eweda <mo.eweda@gmail.com>",
+  "author": "Jon Vadillo <vadillo.jon@gmail.com>",
   "dependencies": {
     "async": "~0.2.8",
     "cors": "~2.7.1 ",
